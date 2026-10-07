@@ -5,10 +5,10 @@ Static site (no build step), same template as the Galveston, Bend, Park City and
 ## Pipeline
 
 1. `../notebooks/market_common.py` holds the market specifics:
-   - workbook `../Gulf Shores - AL.xlsx` (copy of `Gulf Shores - AL - Ifraham.xlsx`, snapshot 2026-10-02) → `Cleaned_Data`, kept to entire homes via `Base_Table.roomType` (171 of 171);
-   - 3 Ward-clustered reference areas along the beach (West Beach & Little Lagoon, Central Gulf Shores, East Beach), named from centroids;
-   - bedroom buckets 1–2BR / 3BR / 4BR / 5BR+;
-   - position on the water: Gulf-front / Lagoon or canal / Off the water. The Gulf shoreline is built from the OSM coastline (`gulfshores_coastline_osm.json`), densified to 20 m, keeping the southern-most points per 100 m east–west slice.
+   - workbook `../Gulf Shores - AL.xlsx` (supplied as `Gulf Shores - AL - Ifraham.xlsx`, snapshot 2026-10-02) → `Cleaned_Data`, kept to entire homes via `Base_Table.roomType` (171 of 171);
+   - 3 Ward-clustered reference areas along the beach (Far West Beach, Central Gulf Shores at the east end of West Beach Blvd, and East Beach from The Hangout to Gulf State Park), named from centroids and checked against where listings sit;
+   - bedroom buckets 1–2BR / 3BR / 4BR / 5BR+ (1BRs and 2BRs are each measured against their own bedroom count, via the `base` column);
+   - position on the water: Gulf-front / Lagoon or canal / Off the water. Gulf-front = within 100 m of the Gulf shoreline, or within 600 m when the title or description says the home is on the Gulf, unless it says "across the street", "skywalk" or similar. The shoreline is the OSM coastline (`gulfshores_coastline_osm.json`), densified to 20 m, keeping the southern-most points per 100 m east–west slice. Lagoon / canal = backs onto Little Lagoon or a canal, or has its own or a community dock or pier on it (phrase rules; the Airbnb waterfront flag is not used on its own). 46 listings were reviewed one by one; their classes and evidence quotes are in `position_overrides.csv`.
 2. `python ../notebooks/build_overview_notebook.py`, then `jupyter nbconvert --to notebook --execute --inplace ../notebooks/gulfshores_overview.ipynb`. This writes:
    - `region_stats.json`;
    - the interactive folium map `gulfshores_overview_map.html`.
